@@ -12,8 +12,10 @@ with open(budgetData) as csvData:
     # Tracks the total Profit
     totalProfitLoss = 0
 
+    countProfitLoss = []
+
     # Will store the current row at the end of each iteration of the loop
-    prevProfitLoss = 0
+    prevProfitLoss = int(next(reader)[1])
 
     # Initial values of largest and smallest
     greatestProfitLoss = 0
@@ -30,20 +32,24 @@ with open(budgetData) as csvData:
         # Gets the difference between the current profit/Loss and the previous month's one
         profitLossDiff = int(row[1]) - prevProfitLoss
 
+        countProfitLoss.append(profitLossDiff)
+
         # COnditional to set the greatest and least difference in profits
         if (profitLossDiff > greatestProfitLoss):
             greatestProfitLoss = profitLossDiff
+            greatestMonth = row[0]
         elif(profitLossDiff < leastProfitLoss):
             leastProfitLoss = profitLossDiff
+            leastMonth = row[0]
 
         # Stores the previous month's profit/loss for use in the next iteration of the loop
         prevProfitLoss = int(row[1])
 
-avgProfitLoss = "ToDo"
+avgProfitLoss = round(sum(countProfitLoss)/len(countProfitLoss))
 
 print(header)
-print(f"Number of months: \n----{monthCounter}")
-print(f"Total Profit: \n----${totalProfitLoss}")
-print(f"Average Profit: \n----{avgProfitLoss}")
-print(f"Greatest Profit increase: \n----${greatestProfitLoss}")
-print(f"Least Profit increase: \n----${leastProfitLoss}")
+print(f"Number of months: \n~~~~ {monthCounter}")
+print(f"Total Profit: \n~~~~ ${totalProfitLoss}")
+print(f"Average Profit: \n~~~~ ${avgProfitLoss}")
+print(f"Greatest Profit increase: \n~~~~ ${greatestProfitLoss} in {greatestMonth}")
+print(f"Least Profit increase: \n~~~~ ${leastProfitLoss} in {leastMonth}")
